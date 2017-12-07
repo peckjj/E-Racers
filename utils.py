@@ -1,4 +1,5 @@
 import math
+import pygame
 
 class Color(object):
     WHITE = (255,255,255)
@@ -25,4 +26,10 @@ class Color(object):
     def getDarker(self):
         return Color(max(0, self.r - 50), max(0, self.g - 50), max(0, self.b - 50))
     
-        
+class image(pygame.sprite.Sprite):
+    
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location

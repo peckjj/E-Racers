@@ -1,21 +1,27 @@
 import pygame
 from utils import *
+from Actors import *
 
 ENABLED = True
 fillColor = Color(255, 0, 0)
 width = 800
 height = 600
 display = pygame.display.set_mode((width, height))
+size = (800,800)
+
+player = Car(True)
+CPU = Car(False)
 
 pygame.init()
 
-display = pygame.display.set_mode((800,600))
+display = pygame.display.set_mode(size)
 pygame.display.set_caption("Pencil E-Racers")
+background = image("first map.jpg", [0,0])
 
-display.fill(fillColor.getColor())
 
 
 def update():
+    display.blit(background.image, background.rect)
     pygame.display.update()
 
 # Draws a rectangle from center
