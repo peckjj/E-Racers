@@ -1,3 +1,5 @@
+import math
+
 class color(object):
     WHITE = (255,255,255)
     BLACK = (0,0,0)
@@ -16,5 +18,11 @@ class color(object):
     def getColor(self):
         print([self.r, self.g, self.b])
         return (self.r,self.g,self.b)
+
+    def getBrighter(self):
+        return (max(255, self.r + 50), max(255, self.g + 50), max(255, self.b + 50))
+
+    def getDarker(self):
+        return (max(255, self.r - 50), max(255, self.g - 50), max(255, self.b - 50))
     
         
