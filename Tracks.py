@@ -1,7 +1,7 @@
 import pygame
 from utils import *
 
-class Track1:
+class Track1(object):
 
     def __init__(self, display, color, width, height):
         self.display = display
@@ -10,5 +10,5 @@ class Track1:
         self.height = height
         
     def show(self):
-        pygame.draw.rect(self.display, self.color.getDarker(), [0, 0, self.width, self.height])
-        pygame.draw.rect(self.display, self.color.getDarker(), [self.width / 4, self.width / 4, self.width / 2, self.width / 2])
+        ERacers.rect(width / 2, height / 2, width, height, color.getDarker())
+        ERacers.rect(width / 2, height / 2, width / 2, height / 2, color.getDarker())
