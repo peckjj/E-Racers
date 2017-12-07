@@ -6,7 +6,6 @@ fillColor = Color(255, 0, 0)
 width = 800
 height = 600
 display = pygame.display.set_mode((width, height))
-track = Track1(display, fillColor, width, height)
 
 pygame.init()
 
@@ -28,7 +27,6 @@ while ENABLED:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             ENABLED = False
-    track.show()
     update()
 
 pygame.quit()
