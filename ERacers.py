@@ -6,6 +6,7 @@ ENABLED = True
 PAUSED = False
 turnLeft = False
 turnRight = False
+FRAMERATE = 200
 fillColor = Color(255, 0, 0)
 width = 800
 height = 800
@@ -37,41 +38,46 @@ def updateCars():
 
 def eventHandler():
     global ENABLED
+    global PAUSED
     global turnLeft
     global turnRight
+    # event checker
     for event in pygame.event.get():
         print(event)
         if event.type == pygame.QUIT:
             ENABLED = False
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+        elif not PAUSED and event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             turnLeft = True
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+        elif not PAUSED and event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
             turnRight = True
-        elif event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
+        elif not PAUSED and event.type == pygame.KEYUP and event.key == pygame.K_LEFT:
             turnLeft = False
-        elif event.type == pygame.KEYUP and event.key == pygame.K_RIGHT:
+        elif not PAUSED and event.type == pygame.KEYUP and event.key == pygame.K_RIGHT:
             turnRight = False
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            PAUSED = not PAUSED
     # Passive action
-    if turnLeft:
+        # For turning
+    if not PAUSED and turnLeft:
         player.setAngle(player.getAngle() - .1)
-    if turnRight:
+    if not PAUSED and turnRight:
         player.setAngle(player.getAngle() + .1)
             
-            
-
-# Draws a rectangle from center
-def rect(x, y, width, height, color):
-    pygame.draw.rect(display, color.getColor(), [x - (width / 2), y - (height / 2), width, height])
+def canProceed():
+    global player
+    global CPU
+    
     
 #MAIN GAME LOOP
 while ENABLED:
-    print("dX: ", player.xSpeed, "  dY: ", player.ySpeed, "  X: ", player.x, "  Y:  ", player.y)
     drawBackground()
     showCars()
     pygame.display.update()
     eventHandler()
-    updateCars()
-    clock.tick(60)
+    if not PAUSED:
+        print("dX: ", player.xSpeed, "  dY: ", player.ySpeed, "  X: ", player.x, "  Y:  ", player.y)
+        updateCars()
+    clock.tick(FRAMERATE)
 pygame.quit()
 quit()
     

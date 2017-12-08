@@ -53,8 +53,4 @@ class Car(pygame.sprite.Sprite):
 
     def show(self, display):
         pygame.draw.circle(display, (255,0,0), [math.floor(self.x), math.floor(self.y)], self.radius, 0)
-#NOT DONE
-    def turn(self, direction):
-        if direction == LEFT:
-            self.angle
 
