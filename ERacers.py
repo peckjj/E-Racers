@@ -20,17 +20,21 @@ ENABLED = True
 PAUSED = False
 turnLeft = False
 turnRight = False
-FRAMERATE = 200
+initPlayerStart = (554, 120)
+initCPUStart = (554, 230)
+FRAMERATE = 100
+turnSpeed = .75
+collisionSetback = 15
 fillColor = Color(255, 0, 0)
 width = 800
 height = 800
 size = (width, height)
 display = pygame.display.set_mode(size)
 
-player = Car(True, 554, 120)
-CPU = Car(False, 554, 230)
-player.setSpeed(4)
-CPU.setSpeed(5)
+player = Car(True, initPlayerStart[0], initPlayerStart[1])
+CPU = Car(False, initCPUStart[0], initCPUStart[1])
+player.setSpeed(15)
+CPU.setSpeed(8)
 
 pygame.init()
 
@@ -61,6 +65,7 @@ def eventHandler():
     global PAUSED
     global turnLeft
     global turnRight
+    global turnSpeed
     # event checker
     for event in pygame.event.get():
         print(event)
@@ -79,24 +84,25 @@ def eventHandler():
     # Passive action
         # For turning
     if not PAUSED and turnLeft:
-        player.setAngle(player.getAngle() - .1)
+        player.setAngle(player.getAngle() - turnSpeed)
     if not PAUSED and turnRight:
-        player.setAngle(player.getAngle() + .1)
+        player.setAngle(player.getAngle() + turnSpeed)
         
 # Inhibits a Car's movement if it drives into (collides with) a region outside
 # the track.
 def canProceed(car):
     global height
     global width
+    global collisionSetback
     # Outer bound checker
     if car.getY() <= 84 + car.getRadius():
-        car.setYSpeed(1)
+        car.setYSpeed(collisionSetback)
     if car.getY() >= 701 - car.getRadius():
-        car.setYSpeed(-1)
+        car.setYSpeed(-collisionSetback)
     if car.getX() <= 78 + car.getRadius():
-        car.setXSpeed(1)
+        car.setXSpeed(collisionSetback)
     if car.getX() >= 730 - car.getRadius():
-        car.setXSpeed(-1)
+        car.setXSpeed(-collisionSetback)
     r = car.getRadius()
     x = car.getX()
     y = car.getY()
@@ -104,15 +110,15 @@ def canProceed(car):
     if (x >= 221 - r and x <= 571 + r):
         if (y >= 269 - r and y <= 535 + r):
             if (y > height / 2):
-                car.setYSpeed(1)
+                car.setYSpeed(collisionSetback)
             else:
-                car.setYSpeed(-1)
+                car.setYSpeed(-collisionSetback)
         if (y >= 269 - r and y <= 535 + r):
             if (x >= 221 - r and x <= 571 + r):
                 if (x > width / 2):
-                    car.setXSpeed(1)
+                    car.setXSpeed(collisionSetback)
                 else:
-                    car.setXSpeed(-1)
+                    car.setXSpeed(-collisionSetback)
                     
 #MAIN GAME LOOP
 while ENABLED:
