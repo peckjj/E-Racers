@@ -88,6 +88,7 @@ def eventHandler():
 def canProceed(car):
     global height
     global width
+    # Outer bound checker
     if car.getY() <= 84 + car.getRadius():
         car.setYSpeed(1)
     if car.getY() >= 701 - car.getRadius():
@@ -99,18 +100,7 @@ def canProceed(car):
     r = car.getRadius()
     x = car.getX()
     y = car.getY()
-    '''if x >= 221 - r and y >= 269 - r and y <= 535 + r:
-        if x <= 571 + r:
-            car.setXSpeed(-1)
-    elif x <= 571 + r and y >= 269 - r and y <= 535 + r:
-        if x >= 221 - r:
-            car.setXSpeed(1)
-    if y >= 269 - r and x >= 221 - r and x <= 571 + r:
-        if y <= 535 + r:
-            car.setYSpeed(-1)
-    elif y <= 535 + r and x >= 221 - r and x <= 571 + r:
-        if y >= 269 - r:
-            car.setYSpeed(1)'''
+    # More complex inner bound checker
     if (x >= 221 - r and x <= 571 + r):
         if (y >= 269 - r and y <= 535 + r):
             if (y > height / 2):
