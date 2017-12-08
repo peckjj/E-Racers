@@ -7,7 +7,7 @@ class Car(pygame.sprite.Sprite):
     IMAGE = image("Car.png", [0,0])
     LEFT = 1
     RIGHT = 2
-    pink = Color(255,105,180)
+    pink = (255,105,180)
     
     def __init__ (self, isPlayer, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -87,5 +87,5 @@ class Car(pygame.sprite.Sprite):
         self.position = pos
 
     def show(self, display):
-        pygame.draw.circle(display, Car.pink.getColor(), [math.floor(self.x), math.floor(self.y)], self.radius, 0)
+        pygame.draw.circle(display, Car.pink, [int(self.x), int(self.y)], self.radius, 0)
 
