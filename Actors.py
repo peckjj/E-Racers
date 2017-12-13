@@ -20,6 +20,8 @@ class Car(pygame.sprite.Sprite):
         self.y = y
         self.image = pygame.image.load("Car.png")
         self.radius = 15
+        self.lap = -1
+        self.passCheck = True
 
     def update(self):
         self.xSpeed = self.speed * math.cos(self.angle)
@@ -67,6 +69,9 @@ class Car(pygame.sprite.Sprite):
 
     def getRadius(self):
         return self.radius
+
+    def getLap(self):
+        return self.lap
     
     def isPlayer(self):
         return self.isPlayer
@@ -85,6 +90,14 @@ class Car(pygame.sprite.Sprite):
         
     def setPosition(self, **pos):
         self.position = pos
+
+    def addLap(self):
+        self.lap = self.lap + 1
+        print(self.lap)
+
+    def subtractLap(self):
+        self.lap = self.lap - 1
+        print(self.lap)
 
     def show(self, display):
         pygame.draw.circle(display, Car.pink, [int(self.x), int(self.y)], self.radius, 0)

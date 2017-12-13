@@ -22,9 +22,13 @@ turnLeft = False
 turnRight = False
 initPlayerStart = (554, 120)
 initCPUStart = (554, 230)
-FRAMERATE = 100
-turnSpeed = .75
-collisionSetback = 15
+FRAMERATE = 20
+turnSpeed = .1
+PLAYER_SPEED = 10
+passCheck = True
+passCheck2 = True
+CPU_SPEED = PLAYER_SPEED * 1.2
+collisionSetback = 5
 fillColor = Color(255, 0, 0)
 width = 800
 height = 800
@@ -33,8 +37,8 @@ display = pygame.display.set_mode(size)
 
 player = Car(True, initPlayerStart[0], initPlayerStart[1])
 CPU = Car(False, initCPUStart[0], initCPUStart[1])
-player.setSpeed(15)
-CPU.setSpeed(8)
+player.setSpeed(PLAYER_SPEED)
+CPU.setSpeed(CPU_SPEED)
 
 pygame.init()
 
@@ -68,7 +72,7 @@ def eventHandler():
     global turnSpeed
     # event checker
     for event in pygame.event.get():
-        print(event)
+        #print(event)
         if event.type == pygame.QUIT:
             ENABLED = False
         elif not PAUSED and event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
@@ -87,13 +91,27 @@ def eventHandler():
         player.setAngle(player.getAngle() - turnSpeed)
     if not PAUSED and turnRight:
         player.setAngle(player.getAngle() + turnSpeed)
+
+
+def lapManager(car, inside):
+    if inside and car.passCheck:
+        if (car.getXSpeed() < 0):
+            car.addLap()
+        if (car.getXSpeed() > 0):
+            car.subtractLap()
+        car.passCheck = False
+    if not inside:
+        car.passCheck = True
         
+    
+    
 # Inhibits a Car's movement if it drives into (collides with) a region outside
 # the track.
-def canProceed(car):
+def collisionCheck(car):
     global height
     global width
     global collisionSetback
+    global passCheck
     # Outer bound checker
     if car.getY() <= 84 + car.getRadius():
         car.setYSpeed(collisionSetback)
@@ -119,6 +137,11 @@ def canProceed(car):
                     car.setXSpeed(collisionSetback)
                 else:
                     car.setXSpeed(-collisionSetback)
+    inY = (y <= 269 - r)
+    inX = (x >= 445 - r and x <= 512 + r)
+    # Finish line collision handler **FIXME
+    lapManager(car, inY and inX)
+        
                     
 #MAIN GAME LOOP
 while ENABLED:
@@ -127,10 +150,10 @@ while ENABLED:
     pygame.display.update()
     eventHandler()
     if not PAUSED:
-        print("dX: ", player.xSpeed, "  dY: ", player.ySpeed, "  X: ", player.x, "  Y:  ", player.y)
+       # print("dX: ", player.xSpeed, "  dY: ", player.ySpeed, "  X: ", player.x, "  Y:  ", player.y)
         updateCars()
-        canProceed(player)
-        canProceed(CPU)
+        collisionCheck(player)
+        collisionCheck(CPU)
         moveCars()
     clock.tick(FRAMERATE)
 pygame.quit()
