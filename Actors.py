@@ -29,9 +29,9 @@ class Car(pygame.sprite.Sprite):
 
     def randomUpdate(self):
         rand = random.random()
-        if rand < .0025:
+        if rand < .002:
             self.angle = self.angle + 1
-        elif rand < .04:
+        elif rand < .033 and self.lap != 0:
             self.angle = self.angle - 1
         self.update()
 
