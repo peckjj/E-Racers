@@ -20,7 +20,7 @@ class Car(pygame.sprite.Sprite):
         self.y = y
         self.image = pygame.image.load("Car.png")
         self.radius = 15
-        self.lap = -1
+        self.lap = 0
         self.passCheck = True
 
     def update(self):
